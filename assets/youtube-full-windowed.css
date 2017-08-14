@@ -1,0 +1,19 @@
+body.is-full-windowed {
+    overflow: hidden;
+}
+
+div#movie_player.is-full-windowed {
+    position: fixed;
+    z-index: 9999;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+}
+
+.html5-main-video.is-full-windowed {
+    height: 100%;
+    width: 100%;
+    left: 0px;
+    top: 0px;
+}
