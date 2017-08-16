@@ -1,17 +1,17 @@
-var toolbar, targets, theatre, trigger, body
+var toolbar, tooltip, tooltipText, theatre, trigger, body
+var targets = 'body, div#movie_player, .html5-main-video'
 var state = false
 
 var ytbfw_waitUntilAvailable = setInterval(function () {
     toolbar = document.querySelector('.ytp-chrome-controls .ytp-right-controls')
 
     if (toolbar !== null) {
-        targets = 'body, div#movie_player, .html5-main-video'
         theatre = document.querySelector('.ytp-size-button')
         trigger = document.createElement('button')
         body = document.querySelector('body')
 
         trigger.setAttribute('class', 'ytp-full-windowed-button ytp-button')
-        trigger.setAttribute('title', 'Full windowed')
+        trigger.setAttribute('title', 'Full Windowed')
 
         ytbfw_open_icon(trigger)
 
@@ -23,6 +23,20 @@ var ytbfw_waitUntilAvailable = setInterval(function () {
                 ytbfw_exit();
             }
         });
+
+        /**
+         * Display the tooltip on hover.
+         */
+        trigger.addEventListener('mouseover', function () {
+            ytbfw_is_active() ? ytbfw_close_icon_hover(trigger) : ytbfw_open_icon_hover(trigger)
+        })
+
+        /**
+         * Hide the tooltip when hover is lost.
+         */
+        trigger.addEventListener('mouseout', function () {
+            ytbfw_is_active() ? ytbfw_close_icon(trigger) : ytbfw_open_icon(trigger)
+        })
 
         /**
          * Toggle full windowed mode.
@@ -107,8 +121,25 @@ function ytbfw_exit () {
  */
 function ytbfw_open_icon (trigger) {
     trigger.innerHTML = '<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">'
-                  + '<path stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m13.56101,18.08987l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="svg_3"/>'
-                  + '<path transform="rotate(-180 21.507320404052734,14.492679595947264) " stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m20.57565,11.07523l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="svg_5"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-1"></use>'
+                  + '<path stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m13.56101,18.08987l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="ytbfw-id-1"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-2"></use>'
+                  + '<path transform="rotate(-180 21.507320404052734,14.492679595947264) " stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m20.57565,11.07523l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="ytbfw-id-2"/>'
+                  + '</svg>'
+}
+
+/**
+ * Set the icon of the trigger.
+ *
+ * @param  \DOMElement  trigger
+ * @return void
+ */
+function ytbfw_open_icon_hover (trigger) {
+    trigger.innerHTML = '<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-3"></use>'
+                  + '<path stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m12.10554,19.54534l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="ytbfw-id-3"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-4"></use>'
+                  + '<path transform="rotate(-180 22.962797164916992,13.037205696105957) " stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m22.03112,9.61976l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="ytbfw-id-4"/>'
                   + '</svg>'
 }
 
@@ -120,7 +151,24 @@ function ytbfw_open_icon (trigger) {
  */
 function ytbfw_close_icon (trigger) {
     trigger.innerHTML = '<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">'
-                  + '<path stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m12.37817,19.27271l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="svg_3" transform="rotate(-180 13.309835433959961,22.69016456604004) "/>'
-                  + '<path stroke="#000" fill="#fff" stroke-width="0" stroke-opacity="null" d="m21.75849,9.89239l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" id="svg_5"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-5"></use>'
+                  + '<path transform="rotate(-180 12.460127830505371,23.539867401123047) " id="ytbfw-id-5" d="m11.52846,20.12242l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" stroke-opacity="null" stroke-width="0" fill="#fff" stroke="#000"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-6"></use>'
+                  + '<path id="ytbfw-id-6" d="m22.6082,9.04268l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" stroke-opacity="null" stroke-width="0" fill="#fff" stroke="#000"/>'
+                  + '</svg>'
+}
+
+/**
+ * Set the icon of the trigger.
+ *
+ * @param  \DOMElement  trigger
+ * @return void
+ */
+function ytbfw_close_icon_hover (trigger) {
+    trigger.innerHTML = '<svg height="100%" version="1.1" viewBox="0 0 36 36" width="100%">'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-7"></use>'
+                  + '<path transform="rotate(-180 14.062260627746582,21.9377384185791) " id="ytbfw-id-7" d="m13.13059,18.52029l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" stroke-opacity="null" stroke-width="0" fill="#fff" stroke="#000"/>'
+                  + '<use class="ytp-svg-shadow" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#ytbfw-id-8"></use>'
+                  + '<path id="ytbfw-id-8" d="m21.00607,10.64481l-0.00013,4.34952l4.34952,-0.00013l0.00066,2.48645l-6.83597,-0.00054l-0.00079,-6.83624" stroke-opacity="null" stroke-width="0" fill="#fff" stroke="#000"/>'
                   + '</svg>'
 }
