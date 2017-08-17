@@ -17,3 +17,38 @@ div#movie_player.is-full-windowed {
     left: 0px;
     top: 0px;
 }
+
+.ytp-button.ytp-full-windowed-button {
+    overflow: visible !important;
+    position: relative;
+}
+
+.ytp-button.ytp-full-windowed-button:hover:after {
+    display: block;
+    opacity: 1;
+}
+
+.ytp-button.ytp-full-windowed-button:after {
+    z-index: 999999999999999999999999999;
+    background-color: rgba(25, 25, 25, .89);
+    transition: opacity .1 ease-in-out;
+    content: 'Enter Full Windowed';
+    transform: translateX(-50%);
+    bottom: calc(100% + 14px);
+    border-radius: 2px;
+    position: absolute;
+    padding: 2px 9px 0;
+    line-height: 23px;
+    font-weight: 500;
+    white-space: pre;
+    display: none;
+    color: #eee;
+    opacity: 0;
+    left: 50%;
+    margin: 0;
+}
+
+body.is-full-windowed .ytp-button.ytp-full-windowed-button:after {
+    content: 'Exit Full Windowed';
+    background-color: #191919;
+}

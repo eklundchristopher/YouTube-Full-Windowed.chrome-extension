@@ -19,7 +19,7 @@ var ytbfw_waitUntilAvailable = setInterval(function () {
          * Allow the user to press ESC to exit out of full windowed mode.
          */
         body.addEventListener('keyup', function (e) {
-            if (e.keyCode == 27 && ytbfw_is_active()) {
+            if (ytbfw_is_active() && e.keyCode == 27) {
                 ytbfw_exit();
             }
         });
