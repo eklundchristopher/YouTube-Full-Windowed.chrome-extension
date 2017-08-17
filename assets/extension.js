@@ -4,14 +4,16 @@
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         var pattern = /^https:\/\/www.youtube.com\/watch\?v=/i
 
-        if (pattern.test(tab.url)) {
-            chrome.browserAction.setIcon({ path: 'icons/enter-fw.png', tabId: tabId })
-            chrome.browserAction.setTitle({ title: 'Enter Full Windowed', tabId: tabId })
-        } else {
-            chrome.browserAction.setIcon({ path: 'icons/browser.png', tabId: tabId })
-            chrome.browserAction.setTitle({ title: 'YouTube Full Windowed', tabId: tabId })
+        if (changeInfo.status === 'complete') {
+            if (pattern.test(tab.url)) {
+                chrome.browserAction.setIcon({ path: 'icons/enter-fw.png', tabId: tabId })
+                chrome.browserAction.setTitle({ title: 'Enter Full Windowed', tabId: tabId })
+            } else {
+                chrome.browserAction.setIcon({ path: 'icons/browser.png', tabId: tabId })
+                chrome.browserAction.setTitle({ title: 'YouTube Full Windowed', tabId: tabId })
 
-            delete initialised[tabId]
+                delete initialised[tabId]
+            }
         }
     })
 
@@ -43,7 +45,6 @@
 
         chrome.tabs.executeScript(tab.id, {
             code: 'ytbfw.toggle()',
-            runAt: 'document_end',
         }, function (response) {
             chrome.runtime.sendMessage({ action: 'toggle', status: response[0] })
         })
