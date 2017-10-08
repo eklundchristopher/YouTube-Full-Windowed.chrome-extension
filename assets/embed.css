@@ -1,8 +1,8 @@
-body.is-full-windowed {
-    overflow: hidden;
+body.extension-full-windowed.extension-full-windowed-enabled {
+    overflow: hidden !important;
 }
 
-div#movie_player.is-full-windowed {
+body.extension-full-windowed.extension-full-windowed-enabled #movie_player {
     position: fixed;
     z-index: 9999;
     bottom: 0px;
@@ -11,26 +11,41 @@ div#movie_player.is-full-windowed {
     top: 0px;
 }
 
-.html5-main-video.is-full-windowed {
-    height: 100%;
-    width: 100%;
-    left: 0px;
-    top: 0px;
+body.extension-full-windowed.extension-full-windowed-enabled .html5-video-container {
+    height: 100% !important;
+    width: 100% !important;
 }
 
-.ytp-button.ytp-full-windowed-button {
+body.extension-full-windowed.extension-full-windowed-enabled .html5-video-container .html5-main-video {
+    height: 100% !important;
+    width: 100% !important;
+    bottom: 0px !important;
+    right: 0px !important;
+    left: 0px !important;
+    top: 0px !important;
+}
+
+body.extension-full-windowed.extension-full-windowed-enabled .html5-video-player .ytp-chrome-bottom {
+    width: calc(100% - 24px) !important;
+}
+
+body.extension-full-windowed.extension-full-windowed-enabled .html5-video-player .ytp-chrome-bottom .ytp-size-button {
+    display: none !important;
+}
+
+body.extension-full-windowed .ytp-full-windowed-button {
     overflow: visible !important;
     position: relative;
 }
 
-.ytp-button.ytp-full-windowed-button:hover:after {
+body.extension-full-windowed .ytp-full-windowed-button:hover:after {
     display: block;
     opacity: 1;
 }
 
-.ytp-button.ytp-full-windowed-button:after {
-    z-index: 999999999999999999999999999;
+body.extension-full-windowed .ytp-full-windowed-button:after {
     background-color: rgba(25, 25, 25, .89);
+    z-index: 999999999999999999999999999;
     transition: opacity .1 ease-in-out;
     content: 'Enter Full Windowed';
     transform: translateX(-50%);
@@ -48,7 +63,11 @@ div#movie_player.is-full-windowed {
     margin: 0;
 }
 
-body.is-full-windowed .ytp-button.ytp-full-windowed-button:after {
+body.extension-full-windowed.extension-full-windowed-enabled .ytp-full-windowed-button:after {
     content: 'Exit Full Windowed';
     background-color: #191919;
+}
+
+body.extension-full-windowed.extension-full-windowed-enabled .ytp-popup.ytp-contextmenu {
+    z-index: 999999999999999999999999999999 !important;
 }

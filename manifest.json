@@ -4,7 +4,7 @@
     "description": "This extension allows you to expand YouTube videos to cover the entire page by adding an extra button inside the video player itself.",
     "version": "1.0.0",
     "browser_action": {
-        "default_icon": "icons/browser.png"
+        "default_icon": "icons/state-0.png"
     },
     "icons": {
         "16": "icons/16.png",
@@ -33,7 +33,6 @@
                 "assets/embed.css"
             ],
             "js": [
-                "assets/functions.js",
                 "assets/embed.js"
             ]
         }
