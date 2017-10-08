@@ -45,11 +45,11 @@ body.extension-full-windowed .ytp-full-windowed-button:hover:after {
 
 body.extension-full-windowed .ytp-full-windowed-button:after {
     background-color: rgba(25, 25, 25, .89);
-    z-index: 999999999999999999999999999;
     transition: opacity .1 ease-in-out;
     content: 'Enter Full Windowed';
     transform: translateX(-50%);
     bottom: calc(100% + 14px);
+    z-index: 5555555555;
     border-radius: 2px;
     position: absolute;
     padding: 2px 9px 0;
@@ -69,5 +69,5 @@ body.extension-full-windowed.extension-full-windowed-enabled .ytp-full-windowed-
 }
 
 body.extension-full-windowed.extension-full-windowed-enabled .ytp-popup.ytp-contextmenu {
-    z-index: 999999999999999999999999999999 !important;
+    z-index: 7777777777 !important;
 }

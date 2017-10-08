@@ -31,7 +31,7 @@
      * @return void
      */
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-        if (changeInfo.status !== 'complete') {
+        if (changeInfo.status !== 'complete' || instance.initialised) {
             return
         }
 
@@ -57,6 +57,7 @@
 
 
     function Extension () {
+        this.initialised = false
         this.state = {}
 
         /**
@@ -90,9 +91,7 @@
             chrome.browserAction.setIcon({ path: 'icons/state-1.png', tabId: sender.tab.id })
             chrome.browserAction.setTitle({ title: 'Enter Full Windowed', tabId: sender.tab.id })
 
-            if (callback) {
-                callback()
-            }
+            this.initialised = true
         }
 
         /**
