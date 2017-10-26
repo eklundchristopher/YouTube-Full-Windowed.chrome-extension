@@ -3,7 +3,7 @@
     "name": "YouTube Full Windowed",
     "short_name": "YTFullWindow",
     "description": "This extension enables the ability to toggle a full windowed mode for any YouTube video (excluding embedded ones).",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "browser_action": {
         "default_icon": "icons/state-0.png"
     },
@@ -14,7 +14,10 @@
     },
     "author": "Christopher Eklund",
     "homepage_url": "https://github.com/eklundchristopher/YouTube-Full-Windowed.chrome-extension",
-    "permissions": [],
+    "permissions": [
+        "activeTab",
+        "https://www.youtube.com/*"
+    ],
     "background": {
         "persistent": false,
         "scripts": [

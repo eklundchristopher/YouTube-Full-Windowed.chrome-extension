@@ -9,4 +9,4 @@ Disclaimer! This extension was built around the new YouTube layout (https://www.
 ## Chrome Web Store
 [Download from the Chrome Web Store](https://chrome.google.com/webstore/detail/youtube-full-windowed/hcmgmocihecidijbefmiecboedfegcgk)
 
-![Download](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_496x150.png)
+[![Download](https://developer.chrome.com/webstore/images/ChromeWebStore_Badge_v2_496x150.png)](https://chrome.google.com/webstore/detail/youtube-full-windowed/hcmgmocihecidijbefmiecboedfegcgk)

@@ -36,7 +36,9 @@
         }
     }
 
-    document.querySelector('video.html5-main-video').addEventListener('playing', function (event) {
+    let videoplayer = document.querySelector('video.html5-main-video')
+
+    videoplayer.addEventListener('canplay', function (event) {
         if (initialised === true) {
             return
         }
@@ -100,4 +102,10 @@
 
         initialised = true
     }, false)
+
+    setTimeout(function () {
+        if (initialised !== true) {
+            videoplayer.dispatchEvent(new Event('canplay'))
+        }
+    }, 1000)
 })(chrome)
