@@ -37,6 +37,7 @@
 
         chrome.browserAction.setIcon({ path: 'icons/state-0.png', tabId })
         chrome.browserAction.setTitle({ title: 'YouTube Full Windowed', tabId })
+        chrome.browserAction.enable(tabId)
     })
 
     /**
@@ -88,10 +89,44 @@
 
             this.log(`Extension was initialised with state ${this.state[sender.tab.id]}`)
 
-            chrome.browserAction.setIcon({ path: 'icons/state-1.png', tabId: sender.tab.id })
-            chrome.browserAction.setTitle({ title: 'Enter Full Windowed', tabId: sender.tab.id })
-
             this.initialised = true
+        }
+
+        /**
+         * Update the extension icon to indicate that a video player is available.
+         *
+         * @param  object  request
+         * @param  object  sender
+         * @param  closure  callback
+         * @return void
+         */
+        this.videoAvailable = function (request, sender, callback) {
+            let state = this.state[sender.tab.id]
+
+            let path = state === true ? 'icons/state-2.png' : 'icons/state-1.png'
+            let title = state === true ? 'Exit Full Windowed' : 'Enter Full Windowed'
+
+            chrome.browserAction.setIcon({ path, tabId: sender.tab.id })
+            chrome.browserAction.setTitle({ title, tabId: sender.tab.id })
+            chrome.browserAction.enable(sender.tab.id)
+
+            this.log(`Extension icon was updated to indicate an available video player`)
+        }
+
+        /**
+         * Update the extension icon to indicate that a video player is available.
+         *
+         * @param  object  request
+         * @param  object  sender
+         * @param  closure  callback
+         * @return void
+         */
+        this.videoUnavailable = function (request, sender, callback) {
+            chrome.browserAction.setIcon({ path: 'icons/state-0.png', tabId: sender.tab.id })
+            chrome.browserAction.setTitle({ title: 'YouTube Full Windowed', tabId: sender.tab.id })
+            chrome.browserAction.disable(sender.tab.id)
+
+            this.log(`Extension icon was updated to indicate no video players were available`)
         }
 
         /**

@@ -1,6 +1,6 @@
 (function (chrome) {
     let button, theatre
-    let state = false, theatreState = false, initialised = false
+    let state = false, theatreState = false, hasVideoPlayer = false, initialised = false
 
     const options = {
         namespace: 'YouTube Full Windowed Extension',
@@ -13,6 +13,10 @@
             }
         },
         events: {
+
+            /**
+             * Open full windowed mode.
+             */
             open: function () {
                 document.body.classList.add('extension-full-windowed-enabled')
 
@@ -23,6 +27,10 @@
 
                 window.dispatchEvent(new Event('resize'))
             },
+
+            /**
+             * Close full windowed mode.
+             */
             close: function () {
                 document.body.classList.remove('extension-full-windowed-enabled')
 
@@ -32,72 +40,87 @@
                 }
 
                 window.dispatchEvent(new Event('resize'))
-            }
+            },
+
+            /**
+             * Initialise the extension.
+             */
+            initialise: function (event) {
+                hasVideoPlayer = window.location.href.indexOf('/watch') !== -1
+
+                let action = hasVideoPlayer ? 'videoAvailable' : 'videoUnavailable'
+                chrome.runtime.sendMessage({ action }, function () {
+                    console.log(`[${options.namespace}]: Video player ${hasVideoPlayer ? 'available' : 'unavailable'}`)
+                })
+
+                if (initialised === true) {
+                    return
+                }
+
+                if (! document.body.classList.contains('extension-full-windowed')) {
+                    document.body.classList.add('extension-full-windowed')
+                }
+
+                theatre = document.querySelector('.ytp-size-button')
+                theatreState = theatre.getAttribute('title') === 'Default view'
+
+                chrome.runtime.onMessage.addListener(function (request, sender, callback) {
+                    switch (request.action) {
+                        case 'toggle':
+                            state = request.state
+
+                            if (button !== undefined) {
+                                button.innerHTML = options.icons[state ? 'close' : 'open']
+                            }
+
+                            options.events[state ? 'open' : 'close']()
+
+                            console.log(`[${options.namespace}]: ${state ? 'Opened' : 'Closed'}`)
+                            break
+                    }
+                })
+
+                chrome.runtime.sendMessage({ action: 'initialise', state }, function () {
+                    button = document.createElement('button')
+
+                    button.setAttribute('class', 'ytp-full-windowed-button ytp-button')
+                    button.setAttribute('title', 'Full Windowed')
+
+                    button.innerHTML = options.icons.open
+
+                    button.addEventListener('mouseover', function () {
+                        this.innerHTML = options.icons.hover[state ? 'close' : 'open']
+                    })
+
+                    button.addEventListener('mouseout', function () {
+                        this.innerHTML = options.icons[state ? 'close' : 'open']
+                    })
+
+                    button.addEventListener('click', function (event) {
+                        chrome.runtime.sendMessage({ action: 'toggle' }, function (state) {
+                            options.events[state ? 'open' : 'close']()
+                        })
+                    })
+
+                    document.body.addEventListener('keyup', function (e) {
+                        if (state === true && e.keyCode == 27) {
+                            chrome.runtime.sendMessage({ action: 'toggle' }, function (state) {
+                                options.events.close()
+                            })
+                        }
+                    })
+
+                    let toolbar = document.querySelector('.ytp-chrome-controls .ytp-right-controls')
+                    toolbar.childNodes[1].insertAdjacentElement('afterend', button)
+
+                    console.log(`[${options.namespace}]: Initialised`)
+
+                    initialised = true
+                })
+            },
+
         }
     }
 
-    document.body.addEventListener('yt-navigate-finish', function (event) {
-        if (initialised === true) {
-            return
-        }
-
-        document.body.classList.add('extension-full-windowed')
-
-        theatre = document.querySelector('.ytp-size-button')
-        theatreState = theatre.getAttribute('title') === 'Default view'
-
-        chrome.runtime.onMessage.addListener(function (request, sender, callback) {
-            switch (request.action) {
-                case 'toggle':
-                    state = request.state
-
-                    if (button !== undefined) {
-                        button.innerHTML = options.icons[state ? 'close' : 'open']
-                    }
-
-                    options.events[state ? 'open' : 'close']()
-
-                    console.log(`[${options.namespace}]: ${state ? 'Opened' : 'Closed'}`)
-                    break
-            }
-        })
-
-        chrome.runtime.sendMessage({ action: 'initialise', state }, function () {
-            button = document.createElement('button')
-
-            button.setAttribute('class', 'ytp-full-windowed-button ytp-button')
-            button.setAttribute('title', 'Full Windowed')
-
-            button.innerHTML = options.icons.open
-
-            button.addEventListener('mouseover', function () {
-                this.innerHTML = options.icons.hover[state ? 'close' : 'open']
-            })
-
-            button.addEventListener('mouseout', function () {
-                this.innerHTML = options.icons[state ? 'close' : 'open']
-            })
-
-            button.addEventListener('click', function (event) {
-                chrome.runtime.sendMessage({ action: 'toggle' }, function (state) {
-                    options.events[state ? 'open' : 'close']()
-                })
-            })
-
-            document.body.addEventListener('keyup', function (e) {
-                if (state === true && e.keyCode == 27) {
-                    chrome.runtime.sendMessage({ action: 'toggle' }, function (state) {
-                        options.events.close()
-                    })
-                }
-            })
-
-            let toolbar = document.querySelector('.ytp-chrome-controls .ytp-right-controls')
-            toolbar.childNodes[1].insertAdjacentElement('afterend', button)
-
-            console.log(`[${options.namespace}]: Initialised`)
-        })
-
-        initialised = true
-    }, false)
+    document.body.addEventListener('yt-navigate-finish', options.events['initialise'], false)
 })(chrome)

@@ -4,7 +4,7 @@ body.extension-full-windowed.extension-full-windowed-enabled {
 
 body.extension-full-windowed.extension-full-windowed-enabled #movie_player {
     position: fixed;
-    z-index: 9999;
+    z-index: 95000;
     bottom: 0px;
     right: 0px;
     left: 0px;
@@ -49,13 +49,13 @@ body.extension-full-windowed .ytp-full-windowed-button:after {
     content: 'Enter Full Windowed';
     transform: translateX(-50%);
     bottom: calc(100% + 14px);
-    z-index: 5555555555;
     border-radius: 2px;
     position: absolute;
     padding: 2px 9px 0;
     line-height: 23px;
     font-weight: 500;
     white-space: pre;
+    z-index: 95010;
     display: none;
     color: #eee;
     opacity: 0;
@@ -68,6 +68,12 @@ body.extension-full-windowed.extension-full-windowed-enabled .ytp-full-windowed-
     background-color: #191919;
 }
 
+body.extension-full-windowed.extension-full-windowed-enabled .ytp-upnext {
+    /*z-index: 95030 !important;*/
+    background-color: #000;
+    top: 0;
+}
+
 body.extension-full-windowed.extension-full-windowed-enabled .ytp-popup.ytp-contextmenu {
-    z-index: 7777777777 !important;
+    z-index: 95050 !important;
 }
